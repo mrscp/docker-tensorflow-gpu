@@ -18,6 +18,11 @@ def get_available_gpus():
     return [x.name for x in local_device_protos if x.device_type == 'GPU']
 
 
+def get_all_available_devices():
+    local_device_protos = device_lib.list_local_devices()
+    return [x.name for x in local_device_protos]
+
+
 fashion_mnist = keras.datasets.fashion_mnist
 (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
 
@@ -37,3 +42,4 @@ test_loss, test_acc = model.evaluate(test_images,  test_labels, verbose=2)
 print('\nTest accuracy:', test_acc)
 print("GPU Available: {}".format(tf.test.is_gpu_available()))
 print("GPUs: ", get_available_gpus())
+print("All devices: ", get_available_gpus())
