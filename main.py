@@ -23,11 +23,15 @@ def get_all_available_devices():
     return [x.name for x in local_device_protos]
 
 
+print("GPUs: ", get_available_gpus())
+print("All devices: ", get_all_available_devices())
+
 fashion_mnist = keras.datasets.fashion_mnist
 (train_images, train_labels), (test_images, test_labels) = fashion_mnist.load_data()
 
 model = keras.Sequential([
     keras.layers.Flatten(input_shape=(28, 28)),
+    keras.layers.Dense(1024, activation='relu'),
     keras.layers.Dense(128, activation='relu'),
     keras.layers.Dense(10)
 ])
@@ -36,10 +40,11 @@ model.compile(optimizer='adam',
               loss=keras.losses.SparseCategoricalCrossentropy(from_logits=True),
               metrics=['accuracy'])
 
-model.fit(train_images, train_labels, epochs=10)
+model.fit(train_images, train_labels, epochs=1000, batch_size=512)
 test_loss, test_acc = model.evaluate(test_images,  test_labels, verbose=2)
 
-print('\nTest accuracy:', test_acc)
 print("GPU Available: {}".format(tf.test.is_gpu_available()))
+
+print('\nTest accuracy:', test_acc)
 print("GPUs: ", get_available_gpus())
-print("All devices: ", get_available_gpus())
+print("All devices: ", get_all_available_devices())

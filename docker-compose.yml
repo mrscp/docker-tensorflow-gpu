@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  tensorflow:
+    container_name: docker_tf_gpu
+    runtime: nvidia
+    tty: true
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - './:/docker-tf-gpu'
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+
